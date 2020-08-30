@@ -73,7 +73,7 @@ def check_sensor(parent_sensor_id: str) -> None:
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                 ).set(float(temp_f))
             if pressure:
-                purpleair_pressure_mb.labels(
+                pressure_g.labels(
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                 ).set(float(pressure))
             if humidity:
