@@ -42,7 +42,7 @@ humidity_g = prometheus_client.Gauge(
     'purpleair_humidity_pct', 'Sensor humidity reading (percent)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
 )
 pressure_g = prometheus_client.Gauge(
-    'purpleair_pressure_mb', 'Sensor pressure reading (Millibars)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
+    'purpleair_pressure_mb', 'Sensor pressure reading (millibars)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
 )
 
 
@@ -81,34 +81,34 @@ def check_sensor(parent_sensor_id: str) -> None:
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                 ).set(float(humidity))
     else:
-        raise Exception("got {} from purpleair".format(resp.status_code))
+        raise Exception("got {} responde code from purpleair".format(resp.status_code))
 
 
 def poll(sensor_ids: List[str], refresh_seconds: int) -> None:
     while True:
-        print("refreshing...", flush=True)
+        print("refreshing sensors...", flush=True)
         for sensor_id in sensor_ids:
             try:
                 check_sensor(sensor_id)
             except Exception as e:
                 print(e)
-                print("Got error, skipping rest of poll")
+                print("Error fetching sensor data, sleeping till next poll")
                 break
         time.sleep(refresh_seconds)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Get's sensor data from purple air, converts it to AQI, and exports it to prometheus"
+        description="Gets sensor data from purple air, converts it to AQI, and exports it to prometheus"
     )
     parser.add_argument('--sensor-ids', nargs="+", help="Sensors to collect from", required=True)
-    parser.add_argument("--port", type=int, help="What port to serve prometheus on", default=9760)
+    parser.add_argument("--port", type=int, help="What port to serve prometheus metrics on", default=9760)
     parser.add_argument("--refresh-seconds", type=int, help="How often to refresh", default=60)
     args = parser.parse_args()
 
     prometheus_client.start_http_server(args.port)
 
-    print("Serving prometheus on {}".format(args.port))
+    print("Serving prometheus metrics on {}/metrics".format(args.port))
     poll(args.sensor_ids, args.refresh_seconds)
 
 
