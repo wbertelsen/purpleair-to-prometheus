@@ -1,0 +1,4 @@
+python-aqi
+requests
+argparse
+prometheus_client

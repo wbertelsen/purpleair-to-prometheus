@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purpleair-to-prometheus
+  labels:
+    app: purpleair-to-prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: purpleair-to-prometheus
+  template:
+    metadata:
+      labels:
+        app: purpleair-to-prometheus
+    spec:
+      containers:
+        - name: purpleair-to-prometheus
+          image: wbertelsen/purpleair-to-prometheus:v0.0.0-4
+          command:
+            - "./purple_to_prom.py"
+            - "--sensor-ids"
+            - "1234" # put the sensor ids you care about here
+          ports:
+            - containerPort: 9760
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purpleair-to-prometheus
+  labels:
+    app: purpleair-to-prometheus
+spec:
+  ports:
+    - name: metrics
+      port: 9760
+      targetPort: 9760
+      protocol: TCP
+  selector:
+    app: purpleair-to-prometheus
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: purpleair-to-prometheus
+  labels:
+    app: purpleair-to-prometheus
+spec:
+  jobLabel: purpleair-to-prometheus
+  selector:
+    matchLabels:
+      app: purpleair-to-prometheus
+  namespaceSelector:
+    matchNames:
+      - purpleair-to-prometheus
+  endpoints:
+    - port: metrics
+      interval: 15s
