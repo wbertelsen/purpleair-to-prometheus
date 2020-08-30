@@ -7,6 +7,3 @@ COPY requirements.txt /purple-to-prom
 RUN pip install -r requirements.txt && rm ./requirements.txt
 
 COPY purple_to_prom.py /purple-to-prom
-
-
-
