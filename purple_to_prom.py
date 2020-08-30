@@ -102,8 +102,8 @@ def main():
         description="Get's sensor data from purple air, converts it to AQI, and exports it to prometheus"
     )
     parser.add_argument('--sensor-ids', nargs="+", help="Sensors to collect from", required=True)
-    parser.add_argument("--port", type=int, help="What port to serve prometheus on", default=9888)
-    parser.add_argument("--refresh-seconds", type=int, help="How often to refresh", default=30)
+    parser.add_argument("--port", type=int, help="What port to serve prometheus on", default=9760)
+    parser.add_argument("--refresh-seconds", type=int, help="How often to refresh", default=60)
     args = parser.parse_args()
 
     prometheus_client.start_http_server(args.port)
