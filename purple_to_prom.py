@@ -33,16 +33,28 @@ import prometheus_client
 
 
 aqi_g = prometheus_client.Gauge(
-    'purpleair_pm_25_10m_iaqi', 'iAQI (10 min average)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
+    'purpleair_pm_25_10m_iaqi', 'iAQI (10 min average)',
+    ['parent_sensor_id', 'sensor_id', 'sensor_name']
+)
+aqi_AQandU_g = prometheus_client.Gauge(
+    'purpleair_pm_25_10m_iaqi_AQandU', 'iAQI (10 min average) w/ AQandU correction',
+    ['parent_sensor_id', 'sensor_id', 'sensor_name']
+)
+aqi_LRAPA_g = prometheus_client.Gauge(
+    'purpleair_pm_25_10m_iaqi_LRAPA', 'iAQI (10 min average) w/ LRAPA correction',
+    ['parent_sensor_id', 'sensor_id', 'sensor_name']
 )
 temp_g = prometheus_client.Gauge(
-    'purpleair_temp_f', 'Sensor temp reading (degrees Fahrenheit)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
+    'purpleair_temp_f', 'Sensor temp reading (degrees Fahrenheit)',
+    ['parent_sensor_id', 'sensor_id', 'sensor_name']
 )
 humidity_g = prometheus_client.Gauge(
-    'purpleair_humidity_pct', 'Sensor humidity reading (percent)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
+    'purpleair_humidity_pct', 'Sensor humidity reading (percent)',
+    ['parent_sensor_id', 'sensor_id', 'sensor_name']
 )
 pressure_g = prometheus_client.Gauge(
-    'purpleair_pressure_mb', 'Sensor pressure reading (millibars)', ['parent_sensor_id', 'sensor_id', 'sensor_name']
+    'purpleair_pressure_mb', 'Sensor pressure reading (millibars)',
+    ['parent_sensor_id', 'sensor_id', 'sensor_name']
 )
 
 
@@ -68,6 +80,21 @@ def check_sensor(parent_sensor_id: str) -> None:
                     aqi_g.labels(
                         parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                     ).set(i_aqi)
+
+                    # https://www.aqandu.org/airu_sensor#calibrationSection
+                    pm25_10min_AQandU = 0.778 * float(pm25_10min) + 2.65
+                    i_aqi_AQandU = aqi.to_iaqi(aqi.POLLUTANT_PM25, pm25_10min_AQandU, algo=aqi.ALGO_EPA)
+                    aqi_AQandU_g.labels(
+                        parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
+                    ).set(i_aqi_AQandU)
+
+                    # https://www.lrapa.org/DocumentCenter/View/4147/PurpleAir-Correction-Summary
+                    pm25_10min_LRAPA = 0.5 * float(pm25_10min) - 0.66
+                    i_aqi_LRAPA = aqi.to_iaqi(aqi.POLLUTANT_PM25, pm25_10min_LRAPA, algo=aqi.ALGO_EPA)
+                    aqi_LRAPA_g.labels(
+                        parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
+                    ).set(i_aqi_LRAPA)
+
             if temp_f:
                 temp_g.labels(
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name

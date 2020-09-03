@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1598764082609,
+  "iteration": 1599153969684,
   "links": [],
   "panels": [
     {
@@ -64,9 +64,9 @@
         "x": 0,
         "y": 0
       },
-      "id": 16,
+      "id": 18,
       "panels": [],
-      "title": "Current Conditions",
+      "title": "Current AQI",
       "type": "row"
     },
     {
@@ -115,7 +115,7 @@
         "x": 0,
         "y": 1
       },
-      "id": 11,
+      "id": 19,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -132,6 +132,7 @@
       "targets": [
         {
           "expr": "max(purpleair_pm_25_10m_iaqi{sensor_name=~\"^$sensor_name$\"})\n",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -148,26 +149,37 @@
         "defaults": {
           "custom": {},
           "mappings": [],
-          "max": 105,
+          "max": 500,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "#009966",
                 "value": null
               },
               {
-                "color": "green",
-                "value": 32
+                "color": "#ffde33",
+                "value": 50
               },
               {
-                "color": "red",
-                "value": 90
+                "color": "#ff9933",
+                "value": 100
+              },
+              {
+                "color": "#cc0033",
+                "value": 150
+              },
+              {
+                "color": "#660099",
+                "value": 200
+              },
+              {
+                "color": "#7e0023",
+                "value": 300
               }
             ]
-          },
-          "unit": "fahrenheit"
+          }
         },
         "overrides": []
       },
@@ -177,7 +189,7 @@
         "x": 8,
         "y": 1
       },
-      "id": 13,
+      "id": 20,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -193,7 +205,8 @@
       "pluginVersion": "7.0.3",
       "targets": [
         {
-          "expr": "max(purpleair_temp_f{sensor_name=~\"^$sensor_name$\"})",
+          "expr": "max(purpleair_pm_25_10m_iaqi_AQandU{sensor_name=~\"^$sensor_name$\"})\n",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -201,7 +214,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Current Temp",
+      "title": "Current PM 2.5 AQI (AQandU)",
       "type": "gauge"
     },
     {
@@ -210,18 +223,37 @@
         "defaults": {
           "custom": {},
           "mappings": [],
-          "max": 100,
+          "max": 500,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "#009966",
                 "value": null
+              },
+              {
+                "color": "#ffde33",
+                "value": 50
+              },
+              {
+                "color": "#ff9933",
+                "value": 100
+              },
+              {
+                "color": "#cc0033",
+                "value": 150
+              },
+              {
+                "color": "#660099",
+                "value": 200
+              },
+              {
+                "color": "#7e0023",
+                "value": 300
               }
             ]
-          },
-          "unit": "percent"
+          }
         },
         "overrides": []
       },
@@ -231,7 +263,7 @@
         "x": 16,
         "y": 1
       },
-      "id": 14,
+      "id": 21,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -247,7 +279,8 @@
       "pluginVersion": "7.0.3",
       "targets": [
         {
-          "expr": "max(purpleair_humidity_pct{sensor_name=~\"^$sensor_name$\"})",
+          "expr": "max(purpleair_pm_25_10m_iaqi_LRAPA{sensor_name=~\"^$sensor_name$\"})\n",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -255,7 +288,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Current Humidity",
+      "title": "Current PM 2.5 AQI (LRAPA)",
       "type": "gauge"
     },
     {
@@ -269,7 +302,7 @@
       },
       "id": 8,
       "panels": [],
-      "title": "Conditions Over Time",
+      "title": "AQI History",
       "type": "row"
     },
     {
@@ -287,7 +320,7 @@
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 0,
         "y": 10
@@ -321,8 +354,22 @@
         {
           "expr": "max(purpleair_pm_25_10m_iaqi{sensor_name=~\"^$sensor_name$\"})\n",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "PA AQI",
           "refId": "A"
+        },
+        {
+          "expr": "max(purpleair_pm_25_10m_iaqi_AQandU{sensor_name=~\"^$sensor_name$\"})\n",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "AQandU AQI",
+          "refId": "B"
+        },
+        {
+          "expr": "max(purpleair_pm_25_10m_iaqi_LRAPA{sensor_name=~\"^$sensor_name$\"})\n",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "LRAPA AQI",
+          "refId": "C"
         }
       ],
       "thresholds": [
@@ -426,194 +473,6 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 10
-      },
-      "hiddenSeries": false,
-      "id": 6,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "max(purpleair_temp_f{sensor_name=~\"^$sensor_name$\"})",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Outside Air Temp",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "fahrenheit",
-          "label": null,
-          "logBase": 1,
-          "max": "105",
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 10
-      },
-      "hiddenSeries": false,
-      "id": 10,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "max(purpleair_humidity_pct{sensor_name=~\"^$sensor_name$\"})",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Humidity Pct",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percent",
-          "label": null,
-          "logBase": 1,
-          "max": "100",
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     }
   ],
   "refresh": "30s",
@@ -647,7 +506,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {
@@ -664,7 +523,7 @@
     ]
   },
   "timezone": "",
-  "title": "Neighborhood Environment",
+  "title": "Neighborhood AQI",
   "uid": "z_mB1zvMk",
-  "version": 8
+  "version": 18
 }
