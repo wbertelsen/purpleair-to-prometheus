@@ -22,6 +22,7 @@
 # SOFTWARE.
 
 import time
+import traceback
 from typing import List
 
 
@@ -118,7 +119,7 @@ def poll(sensor_ids: List[str], refresh_seconds: int) -> None:
             try:
                 check_sensor(sensor_id)
             except Exception as e:
-                print(e)
+                traceback.print_exc()
                 print("Error fetching sensor data, sleeping till next poll")
                 break
         time.sleep(refresh_seconds)
