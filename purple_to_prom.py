@@ -77,24 +77,23 @@ def check_sensor(parent_sensor_id: str) -> None:
         pressure = sensor.get("pressure")
         if stats:
             stats = json.loads(stats)
-            pm25_10min_raw = stats.get("v1")
-            if pm25_10min_raw:
-                pm25_10min = max(float(pm25_10min_raw), 0)
-                i_aqi = aqi.to_iaqi(aqi.POLLUTANT_PM25, str(pm25_10min), algo=aqi.ALGO_EPA)
+            pm25_10min = stats.get("v1")
+            if pm25_10min:
+                i_aqi = aqi.to_iaqi(aqi.POLLUTANT_PM25, pm25_10min, algo=aqi.ALGO_EPA)
                 aqi_g.labels(
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                 ).set(i_aqi)
 
                 # https://www.aqandu.org/airu_sensor#calibrationSection
                 pm25_10min_AQandU = 0.778 * float(pm25_10min) + 2.65
-                i_aqi_AQandU = aqi.to_iaqi(aqi.POLLUTANT_PM25, str(pm25_10min_AQandU), algo=aqi.ALGO_EPA)
+                i_aqi_AQandU = aqi.to_iaqi(aqi.POLLUTANT_PM25, pm25_10min_AQandU, algo=aqi.ALGO_EPA)
                 aqi_AQandU_g.labels(
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                 ).set(i_aqi_AQandU)
 
                 # https://www.lrapa.org/DocumentCenter/View/4147/PurpleAir-Correction-Summary
-                pm25_10min_LRAPA = max(0.5 * float(pm25_10min) - 0.66, 0)
-                i_aqi_LRAPA = aqi.to_iaqi(aqi.POLLUTANT_PM25, str(pm25_10min_LRAPA), algo=aqi.ALGO_EPA)
+                pm25_10min_LRAPA = 0.5 * float(pm25_10min) - 0.66
+                i_aqi_LRAPA = aqi.to_iaqi(aqi.POLLUTANT_PM25, pm25_10min_LRAPA, algo=aqi.ALGO_EPA)
                 aqi_LRAPA_g.labels(
                     parent_sensor_id=parent_sensor_id, sensor_id=sensor_id, sensor_name=name
                 ).set(i_aqi_LRAPA)
