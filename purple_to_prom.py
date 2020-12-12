@@ -144,7 +144,7 @@ def poll(sensor_ids: List[str], refresh_seconds: int) -> None:
         for sensor_id in sensor_ids:
             try:
                 check_sensor(sensor_id)
-            except Exception as e:
+            except Exception:
                 traceback.print_exc()
                 print("Error fetching sensor data, sleeping till next poll")
                 break
