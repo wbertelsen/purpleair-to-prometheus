@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1599153969684,
+  "iteration": 1608407420778,
   "links": [],
   "panels": [
     {
@@ -376,61 +376,51 @@
         {
           "colorMode": "custom",
           "fill": false,
-          "fillColor": "#009966",
+          "fillColor": "#ffde33",
           "line": true,
-          "lineColor": "#009966",
-          "op": "lt",
+          "lineColor": "#ffde33",
+          "op": "gt",
           "value": 50,
           "yaxis": "left"
         },
         {
           "colorMode": "custom",
           "fill": false,
-          "fillColor": "#ffde33",
+          "fillColor": "#ff9933",
           "line": true,
-          "lineColor": "#ffde33",
-          "op": "lt",
+          "lineColor": "#ff9933",
+          "op": "gt",
           "value": 100,
           "yaxis": "left"
         },
         {
           "colorMode": "custom",
           "fill": false,
-          "fillColor": "rgba(51, 162, 229, 0.2)",
+          "fillColor": "#cc0033",
           "line": true,
-          "lineColor": "#ff9933",
-          "op": "lt",
+          "lineColor": "#cc0033",
+          "op": "gt",
           "value": 150,
           "yaxis": "left"
         },
         {
           "colorMode": "custom",
           "fill": false,
-          "fillColor": "rgba(51, 162, 229, 0.2)",
+          "fillColor": "#660099",
           "line": true,
-          "lineColor": "#cc0033",
-          "op": "lt",
+          "lineColor": "#660099",
+          "op": "gt",
           "value": 200,
           "yaxis": "left"
         },
         {
           "colorMode": "custom",
           "fill": false,
-          "fillColor": "rgba(51, 162, 229, 0.2)",
-          "line": true,
-          "lineColor": "#660099",
-          "op": "lt",
-          "value": 300,
-          "yaxis": "left"
-        },
-        {
-          "colorMode": "custom",
-          "fill": false,
-          "fillColor": "#F2495C",
+          "fillColor": "#7e0023",
           "line": true,
           "lineColor": "#7e0023",
-          "op": "lt",
-          "value": 500,
+          "op": "gt",
+          "value": 300,
           "yaxis": "left"
         }
       ],
@@ -525,5 +515,5 @@
   "timezone": "",
   "title": "Neighborhood AQI",
   "uid": "z_mB1zvMk",
-  "version": 18
+  "version": 20
 }
